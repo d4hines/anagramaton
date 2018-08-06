@@ -2,6 +2,8 @@
 
 A library for generating and manipulating anagrams.
 
+> CEIINOSSITTUU | UT TENSIO, SIC UIS
+> - Robert Hooke, _De Potentia Restitutiva_
 ## Usage
 [![Clojars Project](https://img.shields.io/clojars/v/d4hines/anagramaton.svg)](https://clojars.org/d4hines/anagramaton)
 
