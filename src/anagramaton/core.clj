@@ -1,4 +1,4 @@
-(ns anagramizer.core
+(ns anagramaton.core
   (:require [clojure.string :as str]
             [clojure.math.combinatorics :as combo]
             [trie.core :refer [trie]]

@@ -1,4 +1,4 @@
-(ns anagramizer.core
+(ns anagramaton.core
   (:require [clojure.set :as set]
             [clojure.string :as str]
             [clojure.math.combinatorics :as combo]
@@ -36,7 +36,7 @@
 ;; Map of all single word anagrams in the word set
 (def word-map (reduce (fn [agg curr]
                         (update agg
-             (anagram-key curr)
+                                (anagram-key curr)
                                 #(into #{curr} %)))
                       {} wordset))
 
@@ -150,6 +150,21 @@
 
 (def empty-ms (ms/multiset))
 
+(defn anagram-helper0
+  [letter t mset solution]
+  (let [matches (t letter)
+        current-match (first matches)
+        ms-diff
+        (if (empty? matches)
+          ::no-match
+          (str-ms-subtract mset current-match))
+        working-solution (conj solution current-match)]
+    (case ms-diff
+      empty-ms working-solution
+      ::no-match ::no-match
+      (let [first-letter (str (first current-match))]
+        (anagram-helper0 first-letter t ms-diff working-solution)))))
+
 (defn anagram-helper
   [current-match t mset solution]
   (let [ms-diff
@@ -161,21 +176,27 @@
         working-solution (conj solution current-match)]
     [ms-diff working-solution]))
 
+
 (defn pass-helper2
   [t new-ms partial-solution solutions]
   (cond (= new-ms empty-ms) (conj solutions partial-solution)
         (= new-ms ::no-match) (println "pass-helper - hello from no-match")
         :else (let [letter (str (first new-ms))
-                    matches (t letter)]
-                (map (fn [current-match]
-                       (let [[nms sol]
-                             (anagram-helper
-                              current-match t new-ms partial-solution)]
-                         (if (not= nms ::not-subset)
-                           (pass-helper2 t nms sol solutions)
-                           ))) matches))))
+                    matches (t letter)
+                    current-match (first matches)]
+                (reduce (fn [agg current-match]
+                          (let [[m nms sol]
+                                (anagram-helper
+                                 current-match t new-ms partial-solution)
+                                output (if (not= nms ::not-subset)
+                                         (pass-helper2 t nms sol solutions))]
+                            (println "passhelper" [m nms sol output])
+                            (if output (conj agg output)
+                                agg))) [] matches))))
 
 (contains? anagram-set "ar")
+
+(reduce (fn [agg curr] (if (odd? curr(conj agg (inc curr))))) [] [1 2 3 4])
 
 (pass-helper2 t ak-ms [] [])
 

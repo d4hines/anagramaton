@@ -1,6 +1,6 @@
-(ns anagramizer.core-test
+(ns anagramaton.core-test
   (:require [clojure.test :refer :all]
-            [anagramizer.core :as a]
+            [anagramaton.core :as a]
             [trie.core :refer [trie]]
             [multiset.core :as ms]))
 
