@@ -2,6 +2,7 @@
   (:require [clojure.string :as str]
             [clojure.math.combinatorics :as combo]
             [trie.core :refer [trie]]
+            [clojure.set :refer [difference]]
             [multiset.core :as ms]))
 
 (defn clean-string
@@ -114,4 +115,14 @@
                               (map #(get word-map %))
                               (apply combo/cartesian-product)))
                  akeys))))
+
+(defn impossible-anagrams
+  "Returns the set of every impossible anagram of length n."
+  [word-map n]
+  (let [alphabet (seq "abcdefghijklmnopqrstuvwxyz")
+        n-char-map (filter #(= n (count %)) (keys word-map))
+        imp-set (->> (combo/selections alphabet n)
+                     (map #(anagram-key (str/join %)))
+                     set)]
+    (set (difference imp-set n-char-map))))
 
