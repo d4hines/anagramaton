@@ -1,4 +1,4 @@
-# anagramaton [![CircleCI](https://circleci.com/gh/d4hines/anagramaton.svg?style=svg)](https://circleci.com/gh/d4hines/anagramaton)
+# anagramaton [![CircleCI](https://circleci.com/gh/d4hines/anagramaton.svg?style=svg&circle-token=4682551e1c9dece91fcb3dc24237db180680c05a)](https://circleci.com/gh/d4hines/anagramaton)
 
 A library for generating and manipulating anagrams.
 
